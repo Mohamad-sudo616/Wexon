@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | Wexon Shop{% endblock %}
+
+{% block content %}
+
+<h1>{{ product.name }}</h1>
+
+{% if product.image %}
+    <img
+        src="{{ product.image.url }}"
+        alt="{{ product.name }}"
+        width="400"
+    >
+{% endif %}
+
+<p>{{ product.description }}</p>
+
+<p>Price: {{ product.price }}</p>
+
+<p>Stock: {{ product.stock }}</p>
+
+<p>Category: {{ product.category.name }}</p>
+
+{% if product.stock > 0 %}
+    <p>In stock</p>
+
+    <a href="{% url 'cart:add' product.id %}">
+        Add to Cart
+    </a>
+{% else %}
+    <p>Out of stock</p>
+{% endif %}
+
+{% endblock %}
