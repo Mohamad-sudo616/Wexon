@@ -22,6 +22,11 @@
         <hr>
 
     {% endfor %}
+
+    <a href="{% url 'orders:checkout' %}">
+        Proceed to Checkout
+    </a>
+
 {% else %}
     <p>Your cart is empty.</p>
 {% endif %}

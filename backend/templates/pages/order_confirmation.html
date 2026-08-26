@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmation | Wexon Shop{% endblock %}
+
+{% block content %}
+
+<h1>Order Confirmed</h1>
+
+<p>Thank you for your order!</p>
+
+<p>
+    Order number:
+    <strong>#{{ order.id }}</strong>
+</p>
+
+<p>
+    Total:
+    <strong>{{ order.total_price }}</strong>
+</p>
+
+<p>
+    Status:
+    <strong>{{ order.get_status_display }}</strong>
+</p>
+
+<h2>Items</h2>
+
+<ul>
+    {% for item in order.items.all %}
+        <li>
+            {{ item.product_name }}
+            × {{ item.quantity }}
+            — {{ item.price }}
+            each
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
