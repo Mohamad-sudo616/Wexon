@@ -13,12 +13,21 @@
 
     <header>
         <nav>
-            <a href="/">WEXON</a>
+<nav>
+    <a href="/">WEXON</a>
 
-            <a href="/">Home</a>
-            <a href="#">Products</a>
-            <a href="#">Cart</a>
-        </nav>
+    <a href="/">Home</a>
+    <a href="/products/">Products</a>
+    <a href="/cart/">Cart</a>
+
+    {% if user.is_authenticated %}
+        <span>Hello, {{ user.username }}</span>
+        <a href="/logout/">Logout</a>
+    {% else %}
+        <a href="/register/">Register</a>
+        <a href="/login/">Login</a>
+    {% endif %}
+</nav>
     </header>
 
 
