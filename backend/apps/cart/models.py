@@ -5,12 +5,12 @@ from apps.products.models import Product
 
 
 class Cart(models.Model):
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        related_name="carts",
+        related_name="cart",
     )
 
     session_key = models.CharField(

@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-
+from apps.payments.models import Payment
 from apps.cart.models import Cart
 from .forms import CheckoutForm
 from .models import Order, OrderItem
@@ -43,12 +43,17 @@ def checkout(request):
                     quantity=item.quantity,
                 )
 
-            cart.items.all().delete()
+            Payment.objects.create(
+            order=order,
+            amount=order.total_price,
+        )
 
-            return redirect(
-                "orders:confirmation",
-                order_id=order.id,
-            )
+        cart.items.all().delete()
+
+        return redirect(
+            "payments:payment",
+            order_id=order.id,
+        )
 
     else:
         form = CheckoutForm()
