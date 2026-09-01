@@ -1,34 +1,181 @@
 {% extends "base.html" %}
 
-{% block title %}Shopping Cart | Wexon Shop{% endblock %}
+{% block title %}Your Cart | Wexon Shop{% endblock %}
 
 {% block content %}
 
-<h1>Shopping Cart</h1>
+<div class="cart-page">
 
-{% if cart.items.all %}
-    {% for item in cart.items.all %}
+    <div class="cart-heading">
+        <span class="section-label">YOUR WEXON CART</span>
 
-        <div>
-            <h2>{{ item.product.name }}</h2>
+        <h1 class="section-title">
+            Shopping Cart
+        </h1>
 
-            <p>Price: {{ item.product.price }}</p>
+        <p class="cart-subtitle">
+            Your selected gadgets, ready for checkout.
+        </p>
+    </div>
 
-            <p>Quantity: {{ item.quantity }}</p>
 
-            <p>Total: {{ item.total_price }}</p>
+    {% if cart.items.all %}
+
+        <div class="row g-4 align-items-start">
+
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+
+                {% for item in cart.items.all %}
+
+                    <article class="cart-item">
+
+                        <div class="cart-item-image">
+
+                            {% if item.product.image %}
+
+                                <img
+                                    src="{{ item.product.image.url }}"
+                                    alt="{{ item.product.name }}"
+                                >
+
+                            {% else %}
+
+                                <span>No image</span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="cart-item-info">
+
+                            <span class="product-label">
+                                {{ item.product.category.name|default:"GADGET" }}
+                            </span>
+
+                            <h2>
+                                {{ item.product.name }}
+                            </h2>
+
+                            <p class="cart-item-price">
+                                {{ item.product.price }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="cart-item-quantity">
+
+                            <span>Quantity</span>
+
+                            <strong>
+                                {{ item.quantity }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="cart-item-total">
+
+                            <span>Total</span>
+
+                            <strong>
+                                {{ item.total_price }}
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Cart Summary -->
+            <div class="col-lg-4">
+
+                <aside class="cart-summary">
+
+                    <span class="section-label">
+                        ORDER SUMMARY
+                    </span>
+
+                    <h2>
+                        Ready to checkout?
+                    </h2>
+
+                    <p>
+                        Review your gadgets and continue to secure checkout.
+                    </p>
+
+
+                    <div class="cart-summary-line">
+                        <span>Items</span>
+
+                        <strong>
+                            {{ cart.items.count }}
+                        </strong>
+                    </div>
+
+
+                    <div class="cart-summary-line total">
+                        <span>Total</span>
+
+                        <strong>
+                            {% widthratio 1 1 0 %}
+                        </strong>
+                    </div>
+
+
+                    <a
+                        href="{% url 'orders:checkout' %}"
+                        class="btn btn-dark btn-lg w-100 cart-checkout-button"
+                    >
+                        Proceed to Checkout →
+                    </a>
+
+                    <a
+                        href="{% url 'products:list' %}"
+                        class="cart-continue-link"
+                    >
+                        ← Continue Shopping
+                    </a>
+
+                </aside>
+
+            </div>
+
         </div>
 
-        <hr>
+    {% else %}
 
-    {% endfor %}
+        <div class="empty-cart">
 
-    <a href="{% url 'orders:checkout' %}">
-        Proceed to Checkout
-    </a>
+            <div class="empty-cart-icon">
+                🛒
+            </div>
 
-{% else %}
-    <p>Your cart is empty.</p>
-{% endif %}
+            <h2>
+                Your cart is empty
+            </h2>
+
+            <p>
+                Looks like you haven't discovered your next gadget yet.
+            </p>
+
+            <a
+                href="{% url 'products:list' %}"
+                class="btn btn-dark"
+            >
+                Explore Gadgets
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
 
 {% endblock %}

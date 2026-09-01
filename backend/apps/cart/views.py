@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.products.models import Product
@@ -8,17 +9,20 @@ from .models import Cart, CartItem
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
-    if not request.session.session_key:
-        request.session.create()
+    if request.user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(
+            user=request.user,
+        )
 
-    session_key = request.session.session_key
+    else:
+        if not request.session.session_key:
+            request.session.create()
 
-    cart, created = Cart.objects.get_or_create(
-        session_key=session_key,
-        defaults={
-            "user": request.user if request.user.is_authenticated else None
-        },
-    )
+        session_key = request.session.session_key
+
+        cart, created = Cart.objects.get_or_create(
+            session_key=session_key,
+        )
 
     cart_item, created = CartItem.objects.get_or_create(
         cart=cart,
@@ -33,20 +37,25 @@ def add_to_cart(request, product_id):
 
 
 def cart_detail(request):
-    if not request.session.session_key:
-        request.session.create()
+    if request.user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(
+            user=request.user,
+        )
 
-    session_key = request.session.session_key
+    else:
+        if not request.session.session_key:
+            request.session.create()
 
-    cart, created = Cart.objects.get_or_create(
-        session_key=session_key,
-        defaults={
-            "user": request.user if request.user.is_authenticated else None
-        },
-    )
+        session_key = request.session.session_key
+
+        cart, created = Cart.objects.get_or_create(
+            session_key=session_key,
+        )
 
     return render(
         request,
         "pages/cart_detail.html",
-        {"cart": cart},
+        {
+            "cart": cart,
+        },
     )

@@ -4,32 +4,120 @@
 
 {% block content %}
 
-<h1>{{ product.name }}</h1>
+<div class="product-detail-page">
 
-{% if product.image %}
-    <img
-        src="{{ product.image.url }}"
-        alt="{{ product.name }}"
-        width="400"
-    >
-{% endif %}
-
-<p>{{ product.description }}</p>
-
-<p>Price: {{ product.price }}</p>
-
-<p>Stock: {{ product.stock }}</p>
-
-<p>Category: {{ product.category.name }}</p>
-
-{% if product.stock > 0 %}
-    <p>In stock</p>
-
-    <a href="{% url 'cart:add' product.id %}">
-        Add to Cart
+    <!-- Back link -->
+    <a href="{% url 'products:list' %}" class="back-link">
+        ← Back to gadgets
     </a>
-{% else %}
-    <p>Out of stock</p>
-{% endif %}
+
+
+    <div class="row align-items-center g-5 mt-2">
+
+        <!-- Product Image -->
+        <div class="col-lg-6">
+
+            <div class="product-detail-image">
+
+                {% if product.image %}
+
+                    <img
+                        src="{{ product.image.url }}"
+                        alt="{{ product.name }}"
+                    >
+
+                {% else %}
+
+                    <div class="product-detail-placeholder">
+                        No image available
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Product Information -->
+        <div class="col-lg-6">
+
+            <span class="product-label">
+                {{ product.category.name|default:"WEXON GADGET" }}
+            </span>
+
+
+            <h1 class="product-detail-title">
+                {{ product.name }}
+            </h1>
+
+
+            <p class="product-detail-description">
+                {{ product.description }}
+            </p>
+
+
+            <div class="product-detail-price">
+                {{ product.price }}
+            </div>
+
+
+            <div class="product-detail-stock">
+
+                {% if product.stock > 0 %}
+
+                    <span class="stock-badge">
+                        ✓ In stock
+                    </span>
+
+                    <span class="stock-count">
+                        {{ product.stock }} available
+                    </span>
+
+                {% else %}
+
+                    <span class="stock-badge out">
+                        Out of stock
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            {% if product.stock > 0 %}
+
+                <a
+                    href="{% url 'cart:add' product.id %}"
+                    class="btn btn-dark btn-lg product-add-button"
+                >
+                    Add to Cart
+                </a>
+
+            {% else %}
+
+                <button
+                    class="btn btn-secondary btn-lg product-add-button"
+                    disabled
+                >
+                    Currently Unavailable
+                </button>
+
+            {% endif %}
+
+
+            <div class="product-detail-note">
+
+                <div>✦ Unique gadget</div>
+                <div>✦ Carefully selected by Wexon</div>
+                <div>✦ Easy checkout</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}
