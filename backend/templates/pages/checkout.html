@@ -33,7 +33,69 @@
 
                     {% csrf_token %}
 
-                    {{ form.as_p }}
+                    <div class="row g-3">
+
+    <div class="col-12">
+        <label for="{{ form.full_name.id_for_label }}">
+            {{ form.full_name.label }}
+        </label>
+        {{ form.full_name }}
+        {% for error in form.full_name.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-6">
+        <label for="{{ form.email.id_for_label }}">
+            {{ form.email.label }}
+        </label>
+        {{ form.email }}
+        {% for error in form.email.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-6">
+        <label for="{{ form.phone.id_for_label }}">
+            {{ form.phone.label }}
+        </label>
+        {{ form.phone }}
+        {% for error in form.phone.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-6">
+        <label for="{{ form.city.id_for_label }}">
+            {{ form.city.label }}
+        </label>
+        {{ form.city }}
+        {% for error in form.city.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="col-md-6">
+        <label for="{{ form.postal_code.id_for_label }}">
+            {{ form.postal_code.label }}
+        </label>
+        {{ form.postal_code }}
+        {% for error in form.postal_code.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="col-12">
+        <label for="{{ form.address.id_for_label }}">
+            {{ form.address.label }}
+        </label>
+        {{ form.address }}
+        {% for error in form.address.errors %}
+            <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+</div>
 
                     <button type="submit" class="btn btn-dark btn-lg w-100 checkout-submit">
                         Continue to Payment →
