@@ -4,25 +4,55 @@
 
 {% block content %}
 
-<h1>Payment</h1>
+<div class="payment-page">
 
-<h2>Order #{{ order.id }}</h2>
+    <div class="payment-card">
 
-<p>
-    Amount:
-    <strong>{{ payment.amount }}</strong>
-</p>
+        <div class="payment-icon">
+            $
+        </div>
 
-<p>
-    This is a temporary payment page for development.
-</p>
+        <span class="section-label">SECURE CHECKOUT</span>
 
-<form method="post" action="{% url 'payments:process_payment' order.id %}">
-    {% csrf_token %}
+        <h1>Complete Your Payment</h1>
 
-    <button type="submit">
-        Complete Test Payment
-    </button>
-</form>
+        <p class="payment-subtitle">
+            You're almost there. Review your order and complete this
+            test payment to finish your purchase.
+        </p>
+
+        <div class="payment-order">
+            <span>Order number</span>
+            <strong>#{{ order.id }}</strong>
+        </div>
+
+        <div class="payment-amount">
+            <span>Amount to pay</span>
+            <strong>{{ payment.amount }}</strong>
+        </div>
+
+        <div class="payment-notice">
+            <strong>Development Mode</strong>
+            <p>
+                This is a temporary payment system for Wexon development.
+                No real payment will be processed.
+            </p>
+        </div>
+
+        <form method="post" action="{% url 'payments:process_payment' order.id %}">
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-dark btn-lg w-100 payment-button">
+                Complete Test Payment →
+            </button>
+        </form>
+
+        <a href="{% url 'cart:detail' %}" class="payment-back-link">
+            ← Back to Cart
+        </a>
+
+    </div>
+
+</div>
 
 {% endblock %}
