@@ -42,6 +42,8 @@ def cart_detail(request):
             user=request.user,
         )
 
+
+
     else:
         if not request.session.session_key:
             request.session.create()
@@ -52,10 +54,17 @@ def cart_detail(request):
             session_key=session_key,
         )
 
+
+    cart_total = sum(
+        item.total_price
+        for item in cart.items.select_related("product")
+)
+
     return render(
         request,
         "pages/cart_detail.html",
         {
             "cart": cart,
-        },
+            "cart_total":cart_total
+       },
     )
