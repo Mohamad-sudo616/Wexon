@@ -4,18 +4,107 @@
 
 {% block content %}
 
-<h1>Checkout</h1>
+<div class="checkout-page">
 
-<form method="post">
+    <div class="checkout-heading">
+        <span class="section-label">WEXON CHECKOUT</span>
+        <h1 class="section-title">Complete Your Order</h1>
+        <p class="checkout-subtitle">
+            Enter your delivery information and review your gadgets before continuing.
+        </p>
+    </div>
 
-    {% csrf_token %}
+    <div class="row g-4 align-items-start">
 
-    {{ form.as_p }}
+        <!-- Checkout Form -->
+        <div class="col-lg-7">
 
-    <button type="submit">
-        Continue
-    </button>
+            <div class="checkout-card">
 
-</form>
+                <div class="checkout-card-header">
+                    <span class="checkout-step">01</span>
+                    <div>
+                        <h2>Delivery Information</h2>
+                        <p>Where should we send your order?</p>
+                    </div>
+                </div>
+
+                <form method="post" class="checkout-form">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn btn-dark btn-lg w-100 checkout-submit">
+                        Continue to Payment →
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-5">
+
+            <aside class="checkout-summary">
+
+                <span class="section-label">YOUR ORDER</span>
+
+                <h2>Order Summary</h2>
+
+                <div class="checkout-items">
+
+                    {% for item in cart_items %}
+
+                    <div class="checkout-item">
+
+                        <div class="checkout-item-image">
+                            {% if item.product.image %}
+                                <img
+                                    src="{{ item.product.image.url }}"
+                                    alt="{{ item.product.name }}"
+                                >
+                            {% else %}
+                                <span>G</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="checkout-item-info">
+                            <h3>{{ item.product.name }}</h3>
+                            <span>Qty: {{ item.quantity }}</span>
+                        </div>
+
+                        <strong>
+                            {{ item.total_price }}
+                        </strong>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="checkout-summary-divider"></div>
+
+                <div class="checkout-total">
+                    <span>Total</span>
+                    <strong>{{ total }}</strong>
+                </div>
+
+                <div class="checkout-trust">
+                    <div>✦ Secure checkout</div>
+                    <div>✦ Carefully packed gadgets</div>
+                    <div>✦ Fast order processing</div>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}
