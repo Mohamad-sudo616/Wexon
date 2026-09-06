@@ -1,39 +1,87 @@
 {% extends "base.html" %}
 
-{% block title %}Order Confirmation | Wexon Shop{% endblock %}
+{% block title %}Order Confirmed | Wexon Shop{% endblock %}
 
 {% block content %}
 
-<h1>Order Confirmed</h1>
+<div class="confirmation-page">
 
-<p>Thank you for your order!</p>
+    <div class="confirmation-card">
 
-<p>
-    Order number:
-    <strong>#{{ order.id }}</strong>
-</p>
+        <div class="confirmation-icon">
+            ✓
+        </div>
 
-<p>
-    Total:
-    <strong>{{ order.total_price }}</strong>
-</p>
+        <span class="section-label">ORDER SUCCESSFUL</span>
 
-<p>
-    Status:
-    <strong>{{ order.get_status_display }}</strong>
-</p>
+        <h1>Thank You for Your Order!</h1>
 
-<h2>Items</h2>
+        <p class="confirmation-message">
+            Your order has been received successfully.
+            We'll take care of the rest.
+        </p>
 
-<ul>
-    {% for item in order.items.all %}
-        <li>
-            {{ item.product_name }}
-            × {{ item.quantity }}
-            — {{ item.price }}
-            each
-        </li>
-    {% endfor %}
-</ul>
+        <div class="confirmation-order-number">
+            <span>Order number</span>
+            <strong>#{{ order.id }}</strong>
+        </div>
+
+        <div class="confirmation-details">
+
+            <div class="confirmation-detail">
+                <span>Status</span>
+                <strong>{{ order.get_status_display }}</strong>
+            </div>
+
+            <div class="confirmation-detail">
+                <span>Total</span>
+                <strong>{{ order.total_price }}</strong>
+            </div>
+
+        </div>
+
+        <div class="confirmation-items">
+
+            <div class="confirmation-items-header">
+                <h2>Your Gadgets</h2>
+                <span>{{ order.items.count }} item{{ order.items.count|pluralize }}</span>
+            </div>
+
+            {% for item in order.items.all %}
+
+            <div class="confirmation-item">
+
+                <div>
+                    <h3>{{ item.product_name }}</h3>
+                    <span>
+                        Quantity: {{ item.quantity }}
+                    </span>
+                </div>
+
+                <strong>
+                    {{ item.subtotal }}
+                </strong>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="confirmation-actions">
+
+            <a href="{% url 'products:list' %}" class="btn btn-dark">
+                Continue Shopping →
+            </a>
+
+            <a href="{% url 'home' %}" class="confirmation-home-link">
+                Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}
