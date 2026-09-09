@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Failed | Wexon Shop{% endblock %}
+
+{% block content %}
+
+<div class="payment-page">
+
+    <div class="payment-card">
+
+        <div class="payment-failed-icon">
+            !
+        </div>
+
+        <span class="section-label">PAYMENT FAILED</span>
+
+        <h1>Payment Wasn't Completed</h1>
+
+        <p class="payment-subtitle">
+            Your payment could not be completed.
+            Don't worry — your order has not been marked as paid.
+        </p>
+
+        <div class="payment-order">
+            <span>Order number</span>
+            <strong>#{{ order.id }}</strong>
+        </div>
+
+        <div class="payment-notice payment-failed-notice">
+            <strong>What happens next?</strong>
+            <p>
+                You can return to the payment page and try again.
+                Your order information is still available.
+            </p>
+        </div>
+
+        <a
+            href="{% url 'payments:payment' order.id %}"
+            class="btn btn-dark btn-lg w-100 payment-button"
+        >
+            Try Payment Again →
+        </a>
+
+        <a href="{% url 'cart:detail' %}" class="payment-back-link">
+            ← Back to Cart
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

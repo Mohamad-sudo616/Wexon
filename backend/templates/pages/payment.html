@@ -42,9 +42,25 @@
         <form method="post" action="{% url 'payments:process_payment' order.id %}">
             {% csrf_token %}
 
-            <button type="submit" class="btn btn-dark btn-lg w-100 payment-button">
-                Complete Test Payment →
-            </button>
+            <div class="payment-actions">
+
+    <button
+        type="submit"
+        class="btn btn-dark btn-lg w-100 payment-button"
+    >
+        Complete Test Payment →
+    </button>
+
+    <button
+        type="submit"
+        name="simulate_failure"
+        value="1"
+        class="btn btn-outline-secondary w-100 payment-failure-button"
+    >
+        Simulate Failed Payment
+    </button>
+
+</div>
         </form>
 
         <a href="{% url 'cart:detail' %}" class="payment-back-link">

@@ -17,12 +17,12 @@ urlpatterns = [
         views.process_payment,
         name="process_payment",
     ),
+    path(
+        "<int:order_id>/failed/",
+        views.payment_failed,
+        name="payment_failed",
+    ),
 ]
-
-
-
-
-
 
 
 
