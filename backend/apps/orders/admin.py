@@ -6,11 +6,19 @@ from .models import Order, OrderItem
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
-    readonly_fields = ("product_name", "price", "quantity", "subtotal")
+    readonly_fields = (
+        "product_name",
+        "price",
+        "quantity",
+        "item_subtotal",
+    )
 
     @admin.display(description="Subtotal")
-    def subtotal(self, obj):
-        return obj.subtotal
+    def item_subtotal(self, obj):
+        if not obj.price or not obj.quantity:
+            return 0
+
+        return obj.price * obj.quantity
 
 
 @admin.register(Order)
