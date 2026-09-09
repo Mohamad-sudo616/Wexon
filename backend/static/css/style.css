@@ -1186,3 +1186,57 @@ body {
         font-size: 27px;
     }
 }
+
+
+
+/* =========================
+   PAYMENT FAILURE
+   ========================= */
+
+.payment-failed-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    border: 2px solid #212529;
+}
+
+.payment-failed-notice {
+    border-left: 4px solid #212529;
+}
+
+.payment-failed-notice strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.payment-failed-notice p {
+    margin-bottom: 0;
+}
+
+.payment-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-failure-button {
+    padding: 14px 20px;
+    font-weight: 600;
+    border-radius: 12px;
+}
+
+@media (max-width: 576px) {
+    .payment-actions {
+        gap: 10px;
+    }
+
+    .payment-failure-button {
+        font-size: 0.95rem;
+    }
+}
