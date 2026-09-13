@@ -25,6 +25,7 @@ def checkout(request):
 
         if form.is_valid():
             order = Order.objects.create(
+                user=request.user,
                 full_name=form.cleaned_data["full_name"],
                 email=form.cleaned_data["email"],
                 phone=form.cleaned_data["phone"],
