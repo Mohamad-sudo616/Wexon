@@ -7,7 +7,11 @@ from .models import Payment
 
 @login_required
 def payment(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(
+    Order,
+    id=order_id,
+    user=request.user,
+)
 
     payment, created = Payment.objects.get_or_create(
         order=order,
@@ -23,7 +27,12 @@ def payment(request, order_id):
 
 @login_required
 def process_payment(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user,
+    )
+
     payment = get_object_or_404(Payment, order=order)
 
     if request.method == "POST":
@@ -57,7 +66,12 @@ def process_payment(request, order_id):
 
 @login_required
 def payment_failed(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user,
+    )
+
     payment = get_object_or_404(Payment, order=order)
 
     return render(
