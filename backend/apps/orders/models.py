@@ -39,6 +39,7 @@ class Order(models.Model):
     total_price = models.DecimalField(
         max_digits=12,
         decimal_places=2,
+        default=0,
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -64,16 +65,29 @@ class OrderItem(models.Model):
         related_name="order_items",
     )
 
-    product_name = models.CharField(max_length=200)
+    product_name = models.CharField(max_length=200, blank=True)
     price = models.DecimalField(
         max_digits=12,
         decimal_places=2,
+        null=True,
+        blank=True,
     )
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f"{self.product_name} x {self.quantity}"
 
+    def save(self, *args, **kwargs):
+        if self.product:
+            if not self.product_name:
+                self.product_name = self.product.name
+            if self.price is None:
+                self.price = self.product.price
+
+        super().save(*args, **kwargs)
+
     @property
     def subtotal(self):
+        if self.price is None:
+            return 0
         return self.price * self.quantity

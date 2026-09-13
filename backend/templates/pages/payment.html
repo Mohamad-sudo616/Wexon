@@ -17,25 +17,95 @@
         <h1>Complete Your Payment</h1>
 
         <p class="payment-subtitle">
-            You're almost there. Review your order and complete this
-            test payment to finish your purchase.
+            You're almost there. Review your order below and complete
+            the payment via Zarinpal to finish your purchase.
         </p>
 
+     
         <div class="payment-order">
             <span>Order number</span>
             <strong>#{{ order.id }}</strong>
         </div>
+
+        <div class="payment-order">
+            <span>Order date</span>
+            <strong>{{ order.created_at|date:"d M Y - H:i" }}</strong>
+        </div>
+
+        <div class="payment-order">
+            <span>Recipient</span>
+            <strong>{{ order.full_name }}</strong>
+        </div>
+
+        <div class="payment-order">
+            <span>Delivery to</span>
+            <strong>{{ order.city }}</strong>
+        </div>
+
+
+   
+        <div class="payment-items">
+
+            <span class="section-label">ITEMS IN THIS ORDER</span>
+
+            {% for item in order.items.all %}
+
+            <div class="payment-item">
+
+                <div class="payment-item-image">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product_name }}">
+                    {% else %}
+                        <span>G</span>
+                    {% endif %}
+                </div>
+
+                <div class="payment-item-info">
+                    <h3>{{ item.product_name }}</h3>
+                    <span>Qty: {{ item.quantity }}</span>
+                </div>
+
+                <strong>{{ item.subtotal }}</strong>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
 
         <div class="payment-amount">
             <span>Amount to pay</span>
             <strong>{{ payment.amount }}</strong>
         </div>
 
+
+        <div class="payment-badges">
+
+            <div class="payment-badge">
+                🔒
+                <span>Encrypted &amp; secure</span>
+            </div>
+
+            <div class="payment-badge">
+                ⚡
+                <span>Instant confirmation</span>
+            </div>
+
+            <div class="payment-badge">
+                ✓
+                <span>Zarinpal certified gateway</span>
+            </div>
+
+        </div>
+
+
         <div class="payment-notice">
-            <strong>Development Mode</strong>
+            <strong>Powered by Zarinpal</strong>
             <p>
-                This is a temporary payment system for Wexon development.
-                No real payment will be processed.
+                You'll be redirected to Zarinpal's secure payment page
+                to complete this transaction. This is a sandbox
+                environment — no real charge will occur.
             </p>
         </div>
 
@@ -44,23 +114,14 @@
 
             <div class="payment-actions">
 
-    <button
-        type="submit"
-        class="btn btn-dark btn-lg w-100 payment-button"
-    >
-        Complete Test Payment →
-    </button>
+                <button
+                    type="submit"
+                    class="btn btn-dark btn-lg w-100 payment-button"
+                >
+                    Pay with Zarinpal →
+                </button>
 
-    <button
-        type="submit"
-        name="simulate_failure"
-        value="1"
-        class="btn btn-outline-secondary w-100 payment-failure-button"
-    >
-        Simulate Failed Payment
-    </button>
-
-</div>
+            </div>
         </form>
 
         <a href="{% url 'cart:detail' %}" class="payment-back-link">
