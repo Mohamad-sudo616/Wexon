@@ -12,31 +12,78 @@
     </a>
 
 
-    <div class="row align-items-center g-5 mt-2">
+<!-- Product Images -->
+<div class="col-lg-6">
 
-        <!-- Product Image -->
-        <div class="col-lg-6">
+    <!-- Main Image -->
+    <div class="product-detail-image">
 
-            <div class="product-detail-image">
+        {% if product.image %}
 
-                {% if product.image %}
+            <img
+                id="main-product-image"
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+            >
 
+        {% elif product.images.exists %}
+
+            <img
+                id="main-product-image"
+                src="{{ product.images.first.image.url }}"
+                alt="{{ product.name }}"
+            >
+
+        {% else %}
+
+            <div class="product-detail-placeholder">
+                No image available
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Additional Images -->
+    {% if product.images.all %}
+
+        <div class="product-gallery">
+
+            {% if product.image %}
+                <button
+                    type="button"
+                    class="product-thumbnail active"
+                    onclick="changeProductImage('{{ product.image.url }}', this)"
+                >
                     <img
                         src="{{ product.image.url }}"
                         alt="{{ product.name }}"
                     >
+                </button>
+            {% endif %}
 
-                {% else %}
 
-                    <div class="product-detail-placeholder">
-                        No image available
-                    </div>
+            {% for product_image in product.images.all %}
 
-                {% endif %}
+                <button
+                    type="button"
+                    class="product-thumbnail"
+                    onclick="changeProductImage('{{ product_image.image.url }}', this)"
+                >
+                    <img
+                        src="{{ product_image.image.url }}"
+                        alt="{{ product.name }}"
+                    >
+                </button>
 
-            </div>
+            {% endfor %}
 
         </div>
+
+    {% endif %}
+
+</div>
 
 
         <!-- Product Information -->
@@ -119,5 +166,22 @@
     </div>
 
 </div>
+
+
+
+
+
+
+<script>
+function changeProductImage(imageUrl, thumbnail) {
+    document.getElementById("main-product-image").src = imageUrl;
+
+    document.querySelectorAll(".product-thumbnail").forEach(function (item) {
+        item.classList.remove("active");
+    });
+
+    thumbnail.classList.add("active");
+}
+</script>
 
 {% endblock %}
