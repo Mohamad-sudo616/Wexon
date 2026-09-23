@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
+from django.core.paginator import Paginator
 
 from .models import Category, Product
 
@@ -30,16 +31,22 @@ def product_list(request):
     else:
         products = products.order_by("-created_at")
 
+
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(
         request,
-        "pages/products.html",
-        {
-            "products": products,
-            "categories": categories,
-            "query": query,
-            "selected_category": category_slug,
-            "selected_sort": sort,
-        },
+    "pages/products.html",
+    {
+        "products": page_obj,
+        "page_obj": page_obj,
+        "categories": categories,
+        "query": query,
+        "selected_category": category_slug,
+        "selected_sort": sort,
+    },
     )
 
 def product_detail(request, slug):
