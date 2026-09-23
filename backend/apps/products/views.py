@@ -10,6 +10,7 @@ def product_list(request):
 
     query = request.GET.get("q", "").strip()
     category_slug = request.GET.get("category", "").strip()
+    sort = request.GET.get("sort", "").strip()
 
     if query:
         products = products.filter(
@@ -20,6 +21,15 @@ def product_list(request):
     if category_slug:
         products = products.filter(category__slug=category_slug)
 
+    if sort == "price_low":
+        products = products.order_by("price")
+    elif sort == "price_high":
+        products = products.order_by("-price")
+    elif sort == "name":
+        products = products.order_by("name")
+    else:
+        products = products.order_by("-created_at")
+
     return render(
         request,
         "pages/products.html",
@@ -28,9 +38,9 @@ def product_list(request):
             "categories": categories,
             "query": query,
             "selected_category": category_slug,
+            "selected_sort": sort,
         },
     )
-
 
 def product_detail(request, slug):
     product = get_object_or_404(

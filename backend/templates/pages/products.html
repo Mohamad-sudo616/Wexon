@@ -23,6 +23,7 @@
 
     <div class="row g-2">
 
+        <!-- Search -->
         <div class="col-lg">
 
             <input
@@ -36,6 +37,8 @@
 
         </div>
 
+
+        <!-- Category -->
         <div class="col-lg-3">
 
             <select
@@ -60,6 +63,44 @@
 
         </div>
 
+
+        <!-- Sorting -->
+        <div class="col-lg-3">
+
+            <select
+                name="sort"
+                class="form-select form-select-lg"
+                aria-label="Sort products"
+            >
+                <option value="">Newest</option>
+
+                <option
+                    value="price_low"
+                    {% if selected_sort == "price_low" %}selected{% endif %}
+                >
+                    Price: Low to High
+                </option>
+
+                <option
+                    value="price_high"
+                    {% if selected_sort == "price_high" %}selected{% endif %}
+                >
+                    Price: High to Low
+                </option>
+
+                <option
+                    value="name"
+                    {% if selected_sort == "name" %}selected{% endif %}
+                >
+                    Name: A to Z
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- Search button -->
         <div class="col-auto">
 
             <button
@@ -74,17 +115,6 @@
     </div>
 
 </form>
-</form>
-    <div>
-        <span class="section-label">
-            WEXON COLLECTION
-        </span>
-
-        <h1 class="section-title">
-            All Gadgets
-        </h1>
-    </div>
-
 </div>
 
 
