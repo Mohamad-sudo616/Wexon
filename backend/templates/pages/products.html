@@ -4,8 +4,52 @@
 
 {% block content %}
 
-<div class="section-heading mb-5">
+<div class="section-heading mb-4">
 
+    <div>
+        <span class="section-label">
+            WEXON COLLECTION
+        </span>
+
+        <h1 class="section-title">
+            All Gadgets
+        </h1>
+    </div>
+
+</div>
+
+
+<form method="get" class="mb-5">
+
+    <div class="row g-2">
+
+        <div class="col">
+
+            <input
+                type="search"
+                name="q"
+                value="{{ query }}"
+                class="form-control form-control-lg"
+                placeholder="Search gadgets..."
+                aria-label="Search gadgets"
+            >
+
+        </div>
+
+        <div class="col-auto">
+
+            <button
+                type="submit"
+                class="btn btn-dark btn-lg"
+            >
+                Search
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
     <div>
         <span class="section-label">
             WEXON COLLECTION
@@ -113,11 +157,23 @@
 
 <div class="empty-products">
 
+{% if query %}
+
+    <h3>No gadgets found.</h3>
+
+    <p>
+        No gadgets matched "{{ query }}".
+    </p>
+
+{% else %}
+
     <h3>No gadgets available yet.</h3>
 
     <p>
         Check back soon for something interesting.
     </p>
+
+{% endif %}
 
 </div>
 

@@ -1,18 +1,26 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
 from .models import Product
 
 
 def product_list(request):
-    products = Product.objects.filter(
-        is_available=True
-    )
+    products = Product.objects.filter(is_available=True)
+
+    query = request.GET.get("q", "").strip()
+
+    if query:
+        products = products.filter(
+            Q(name__icontains=query)
+            | Q(description__icontains=query)
+        )
 
     return render(
         request,
         "pages/products.html",
         {
             "products": products,
+            "query": query,
         },
     )
 
