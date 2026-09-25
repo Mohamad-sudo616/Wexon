@@ -36,6 +36,8 @@ def product_list(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
+    has_filters = bool(query or category_slug or sort)
+
     return render(
         request,
     "pages/products.html",
