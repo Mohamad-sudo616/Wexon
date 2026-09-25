@@ -114,6 +114,28 @@
 
 </form>
 
+</form>
+
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div class="text-muted">
+        {{ page_obj.paginator.count }} product{{ page_obj.paginator.count|pluralize }} found
+    </div>
+
+    {% if has_filters %}
+
+        <a
+            href="{% url 'products:list' %}"
+            class="btn btn-outline-dark"
+        >
+            Clear Filters
+        </a>
+
+    {% endif %}
+
+</div>
+
 
 {% if products %}
 
