@@ -12,6 +12,8 @@ def add_to_cart(request, product_id):
         is_available=True,
     )
 
+    
+
     if request.user.is_authenticated:
         cart, created = Cart.objects.get_or_create(
             user=request.user,
@@ -45,6 +47,72 @@ def add_to_cart(request, product_id):
 
     return redirect("cart:detail")
 
+def update_cart_item(request, item_id):
+    if request.user.is_authenticated:
+        cart = get_object_or_404(
+            Cart,
+            user=request.user,
+        )
+    else:
+        if not request.session.session_key:
+            request.session.create()
+
+        cart = get_object_or_404(
+            Cart,
+            session_key=request.session.session_key,
+        )
+
+    cart_item = get_object_or_404(
+        CartItem,
+        id=item_id,
+        cart=cart,
+    )
+
+    if request.method == "POST":
+        try:
+            quantity = int(request.POST.get("quantity", 1))
+        except (TypeError, ValueError):
+            quantity = 1
+
+        if quantity <= 0:
+            cart_item.delete()
+
+        elif quantity <= cart_item.product.stock:
+            cart_item.quantity = quantity
+            cart_item.save(update_fields=["quantity"])
+
+        else:
+            cart_item.quantity = cart_item.product.stock
+            cart_item.save(update_fields=["quantity"])
+
+    return redirect("cart:detail")
+
+
+def remove_from_cart(request, item_id):
+    if request.user.is_authenticated:
+        cart = get_object_or_404(
+            Cart,
+            user=request.user,
+        )
+    else:
+        if not request.session.session_key:
+            request.session.create()
+
+        cart = get_object_or_404(
+            Cart,
+            session_key=request.session.session_key,
+        )
+
+    cart_item = get_object_or_404(
+        CartItem,
+        id=item_id,
+        cart=cart,
+    )
+
+    if request.method == "POST":
+        cart_item.delete()
+
+    return redirect("cart:detail")
 
 def cart_detail(request):
     if request.user.is_authenticated:
