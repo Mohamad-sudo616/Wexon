@@ -15,15 +15,26 @@ def checkout(request):
     if not cart_items.exists():
         return redirect("cart:detail")
 
+    stock_error = None
+
+    for item in cart_items:
+        if not item.product.is_available or item.product.stock < item.quantity:
+            stock_error = (
+                f"Sorry, {item.product.name} does not have enough stock "
+                "to complete your order."
+            )
+            break
+
     total = sum(
         item.product.price * item.quantity
         for item in cart_items
+        if item.product.is_available
     )
 
     if request.method == "POST":
         form = CheckoutForm(request.POST)
 
-        if form.is_valid():
+        if form.is_valid() and not stock_error:
             order = Order.objects.create(
                 user=request.user,
                 full_name=form.cleaned_data["full_name"],
@@ -45,16 +56,16 @@ def checkout(request):
                 )
 
             Payment.objects.create(
-            order=order,
-            amount=order.total_price,
-        )
+                order=order,
+                amount=order.total_price,
+            )
 
-        cart.items.all().delete()
+            cart.items.all().delete()
 
-        return redirect(
-            "payments:payment",
-            order_id=order.id,
-        )
+            return redirect(
+                "payments:payment",
+                order_id=order.id,
+            )
 
     else:
         form = CheckoutForm()
@@ -66,6 +77,7 @@ def checkout(request):
             "form": form,
             "cart_items": cart_items,
             "total": total,
+            "stock_error": stock_error,
         },
     )
 
@@ -76,7 +88,6 @@ def confirmation(request, order_id):
         Order,
         id=order_id,
         user=request.user,
-        
     )
 
     return render(

@@ -33,6 +33,12 @@
 
                     {% csrf_token %}
 
+                    {% if stock_error %}
+    <div class="alert alert-danger mb-3">
+        {{ stock_error }}
+    </div>
+{% endif %}
+
                     <div class="row g-3">
 
     <div class="col-12">
