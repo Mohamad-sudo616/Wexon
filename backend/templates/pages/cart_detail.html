@@ -64,17 +64,35 @@
 
                         </div>
 
+<div class="cart-item-quantity">
 
-                        <div class="cart-item-quantity">
+    <span>Quantity</span>
 
-                            <span>Quantity</span>
+    <form method="post" action="{% url 'cart:update' item.id %}">
+        {% csrf_token %}
 
-                            <strong>
-                                {{ item.quantity }}
-                            </strong>
+        <input
+            type="number"
+            name="quantity"
+            value="{{ item.quantity }}"
+            min="1"
+            max="{{ item.product.stock }}"
+        >
 
-                        </div>
+        <button type="submit" class="btn btn-sm btn-dark">
+            Update
+        </button>
+    </form>
 
+</div>
+
+<form method="post" action="{% url 'cart:remove' item.id %}">
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-sm btn-outline-danger">
+        Remove
+    </button>
+</form>
 
                         <div class="cart-item-total">
 
