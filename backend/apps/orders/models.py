@@ -36,6 +36,8 @@ class Order(models.Model):
         default="pending",
     )
 
+    stock_reserved = models.BooleanField(default=False)
+
     total_price = models.DecimalField(
         max_digits=12,
         decimal_places=2,
